@@ -28,14 +28,22 @@ summary
 warnings
 waypoint_order
 """
-legs_dict = var[0]["legs"][0]
-# coordinates
-# for i in legs_dict["steps"][0]["end_location"].keys():
-#     print(legs_dict["steps"][0]["end_location"][i])
+route_info= dict()
+index = 1
+for i in var:
+    coordinates_for_this_route = []
+    html_steps = []
+    for j in i["legs"][0]["steps"]:
+        coordinates_for_this_route.append((j["end_location"]["lat"], j["end_location"]["lng"]))
+        html_steps.append(j["html_instructions"])
+    coordinates_for_this_route.append((i["legs"][0]["end_location"]["lat"], i["legs"][0]["end_location"]["lng"]))
+    route_info[index] = {"coordinates": coordinates_for_this_route, "steps": html_steps}
+    index += 1
 
-print(legs_dict["steps"][0]["html_instructions"])
 
-# for i in legs_dict["steps"][0]["html_instructions"].keys():
-#     print(legs_dict["steps"][0]["html_instructions"][i])
-
-# print(len(legs_dict["steps"]))
+for i in route_info:
+    print(i)
+    for j in route_info[i]["coordinates"]:
+        print(j)
+    for j in route_info[i]["steps"]:
+        print(j)
