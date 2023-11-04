@@ -12,5 +12,7 @@ with open('major_crimes_smaller.csv', newline='', encoding='utf-8') as csv_file:
     data_list = []
 
     # Iterate through the rows and create dictionaries
+    LOCATION_TYPE = set()
     for row in csv_reader:
-        print(row)
+        LOCATION_TYPE.add(row[1])
+    print(LOCATION_TYPE)
