@@ -9,7 +9,7 @@ origin = "43.662891, -79.393337"
 destination = "43.657312, -79.381037"
 
 # Set the mode of travel (e.g., "driving," "walking," "transit")
-travel_mode = "walking"
+travel_mode = "transit"
 
 # Request multiple routes with alternative routes
 routes = gmaps.directions(
