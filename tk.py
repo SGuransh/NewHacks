@@ -71,6 +71,10 @@ class StartEndBoxes(tk.CTkFrame):
     def login(self, username, password):
         self.syllabus_pdf = 'timetable.pdf'
 
+
+    def getPdfFilePath(self) -> str:
+        return 'timetable.pdf'
+
 def main():
     root = tkinter.Tk()
     root.geometry(f"{1200}x{1000}")
