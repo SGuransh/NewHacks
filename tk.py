@@ -143,7 +143,7 @@ class StartEndBoxes(tk.CTkFrame):
     def getPdfFilePath(self) -> str:
         return 'timetable.pdf'
 
-def main():
+def open_tk():
     root = tkinter.Tk()
     root.geometry(f"{1200}x{1000}")
     root.title("Navigation System")
@@ -164,5 +164,4 @@ def main():
     root.mainloop()
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
