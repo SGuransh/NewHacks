@@ -8,6 +8,20 @@ import analyzeroute
 import GMapsAPI
 import timetable_parser
 
+UOFT_BUILDING_CODES = {"EM": "75 Queen's Park Cres E, Toronto, ON M5S 1K7",
+                       "MP": "McLennan Physical Laboratories, 255 Huron St, Toronto, ON M5S 1A7",
+                       "BF": "4 Bancroft Ave, Toronto, ON M5S 1C1",
+                       "CR": "100 St Joseph St, Toronto, ON M5S 2C4",
+                       "BL": "Claude T. Bissell Building, 140 St George St, Toronto, ON M5S 3G6",
+                       "MS": "Medical Sciences Building, 1 King's College Cir, Toronto, ON M5S 1A8",
+                       "NF": "Toronto, ON M5S 1K6",
+                       "RW": "Toronto, ON M5S 3G5",
+                       "OI": "252 Bloor St W, Toronto, ON M5S 1V6",
+                       "MY": "55 St George St, Toronto, ON M5S 0C9",
+                       "UC": "University College (Main Building), 15 King's College Cir, Toronto, ON M5S 3H7",
+                       "NL": "6 Queens Pk Cres W, Toronto, ON M5S 3H2",
+                       "SK": "Factor-Inwentash Faculty of Social Work, 246 Bloor St W, Toronto, ON M5S 1V4"}
+
 
 
 class StartEndBoxes(tk.CTkFrame):
