@@ -9,6 +9,7 @@ class StartEndBoxes(tk.CTkFrame):
     map_widget = None
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
+
         self.start_label = tk.CTkLabel(self, text="Start:", font=("Arial", 14))
         self.start_entry = tk.CTkEntry(self, width=200)
 
