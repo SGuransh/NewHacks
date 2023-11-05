@@ -30,7 +30,7 @@ class StartEndBoxes(tk.CTkFrame):
     user_choice = None
     def __init__(self, pdf, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
-        self.syllabus_pdf=pdf
+        self.syllabus_pdf = pdf
         self.start_label = tk.CTkLabel(self, text="Start:", font=("Arial", 14))
         self.start_entry = tk.CTkEntry(self, width=200)
 
@@ -50,14 +50,17 @@ class StartEndBoxes(tk.CTkFrame):
 
 
         self.setupDropDown()
-        self.fakeLabel = tk.CTkLabel(self, text='TODAY IS '+ self.day.upper()).grid(row=6, columnspan=2)
-        self.days_dropdown.grid(row=7, columnspan=2)
-        self.fakeLabel = tk.CTkLabel(self, text='').grid(row=8,
+        if self.syllabus_pdf:
+            self.fakeLabel = tk.CTkLabel(self, text='TODAY IS '+ self.day.upper()).grid(row=6, columnspan=2)
+            self.days_dropdown.grid(row=7, columnspan=2)
+            self.fakeLabel = tk.CTkLabel(self, text='').grid(row=8,
                                                                                      columnspan=2)
-        self.find_button = tk.CTkButton(self, text="Go To Class",
+            self.find_button = tk.CTkButton(self, text="Go To Class",
                                         command=self.findSafestRouteToClass).grid(row=9, columnspan=2)
 
     def setupDropDown(self):
+        if self.syllabus_pdf is None or self.syllabus_pdf == '':
+            return None
         self.week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Friday', 'Friday']
         self.day = self.week[datetime.datetime.now().weekday()]
         parser = timetable_parser.Parser(self.getPdfFilePath())
@@ -107,7 +110,7 @@ class StartEndBoxes(tk.CTkFrame):
 
         # Comment out for testing based on actual api
         routes = gm.getRoutes(start_location, end_location, "walking")
-        start_location = routes["legs"]["start_location"]
+        start_location = routes[0]["legs"][0]["start_location"]
         routes_formatted = gm.formatRoutes(routes)
 
         # routes = gm.SAMPLE_SPADINA_STGEORGE
