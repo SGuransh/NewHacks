@@ -48,7 +48,6 @@ class RouteAnalyzer:
         Credits: formula from Kurt Peek
         """
         R = 6373.0
-        print((point1[1]), point1[0], point2[0], point2[1])
         lat1 = radians(float(point1[1]))
         lon1 = radians(float(point1[0]))
         lat2 = radians(float(point2[0]))

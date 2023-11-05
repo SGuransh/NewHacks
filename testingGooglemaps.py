@@ -31,6 +31,7 @@ summary
 warnings
 waypoint_order
 """
+
 route_info= dict()
 index = 1
 for i in var:
