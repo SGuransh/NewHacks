@@ -3,10 +3,13 @@ import customtkinter as tk
 import tkintermapview
 import analyzeroute
 import GMapsAPI
+import timetable_parser
+
 
 
 class StartEndBoxes(tk.CTkFrame):
     map_widget = None
+    syllabus_pdf = None
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
@@ -35,20 +38,26 @@ class StartEndBoxes(tk.CTkFrame):
         gm = GMapsAPI.GMapsAPI()
 
         # Comment out for testing based on actual api
-        # routes = gm.getRoutes(start_location, end_location, "walking")
+        routes = gm.getRoutes(start_location, end_location, "walking")
+        start_location = routes["legs"]["start_location"]
+        routes_formatted = gm.formatRoutes(routes)
+
+        # routes = gm.SAMPLE_SPADINA_STGEORGE
+        # start_location = routes[0]["legs"][0]["start_location"]
         # routes_formatted = gm.formatRoutes(routes)
 
         # Comment out when testing based on based routes
-        routes_formatted = gm.SAMPLE_CRIME_HEAVY
+        # routes_formatted = gm.SAMPLE_CRIME_HEAVY
         route_analyzer = analyzeroute.RouteAnalyzer(routes_formatted, 'major_crimes_smaller.csv')
 
         best_route = route_analyzer.getBestRoute()
-        print(route_analyzer.relevant_crime_points)
-        self.drawPath(best_route)
+        self.drawPath(start_location, best_route)
         self.plotCrimePoints(route_analyzer)
 
-    def drawPath(self, path_list: list[tuple]):
+    def drawPath(self, start_location: dict, path_list: list[tuple]):
+        print(start_location)
         # this code places the path and makes it zoom in and center around the path
+        path_list.insert(0, (start_location["lat"], start_location["lng"]))
         self.map_widget.set_position(path_list[0][0], path_list[0][1])
         self.map_widget.set_zoom(15)
         self.map_widget.set_path(path_list)
@@ -56,11 +65,11 @@ class StartEndBoxes(tk.CTkFrame):
     def plotCrimePoints(self, route_analyzer: analyzeroute.RouteAnalyzer):
         self.map_widget.set_marker(43.6585663, -79.39721589999999)
         for point in route_analyzer.relevant_crime_points:
-            print(point)
-            print(float(point[0]))
-            print(float(point[1]))
             self.map_widget.set_marker(float(point[1]), float(point[0]))
 
+
+    def login(self, username, password):
+        self.syllabus_pdf = 'timetable.pdf'
 
 def main():
     root = tkinter.Tk()
