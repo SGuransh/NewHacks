@@ -1,11 +1,6 @@
 import re
-<<<<<<< HEAD
-from pdfminer.high_level import extract_pages, extract_text
-
-=======
 import pdfminer
 from pdfminer.high_level import extract_text
->>>>>>> d3cb9bb3958da6aeab103c679a95906af16a696e
 class Parser:
     result = None
     courses = None

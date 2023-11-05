@@ -28,9 +28,9 @@ class StartEndBoxes(tk.CTkFrame):
     map_widget = None
     syllabus_pdf = None
     user_choice = None
-    def __init__(self, parent, *args, **kwargs):
+    def __init__(self, pdf, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
-
+        self.syllabus_pdf=pdf
         self.start_label = tk.CTkLabel(self, text="Start:", font=("Arial", 14))
         self.start_entry = tk.CTkEntry(self, width=200)
 
@@ -141,13 +141,13 @@ class StartEndBoxes(tk.CTkFrame):
 
 
     def getPdfFilePath(self) -> str:
-        return 'timetable.pdf'
+        return self.syllabus_pdf
 
-def open_tk():
+def open_tk(pdfFilePath: str):
     root = tkinter.Tk()
     root.geometry(f"{1200}x{1000}")
     root.title("Navigation System")
-    start_end_boxes = StartEndBoxes(root)
+    start_end_boxes = StartEndBoxes(pdfFilePath,root)
     # start_end_boxes.grid(row=0, column=0, padx=20, pady=400, sticky="n")
     start_end_boxes.pack(padx=100, pady=200, side=tkinter.LEFT)
 
