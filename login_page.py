@@ -57,9 +57,14 @@ def login():
     result = check_user(username, password)
     if result == "Login Successful":
         print("Login Successful")
-        sign_up()  # Call the main application
+        sign_up()
+        open_application(result)  # Call the main application
     elif result == "User Error":
         print("User Error")
+
+
+def open_application(path):
+    print(f"Opening the application at path: {path}")
 
 
 root.mainloop()
