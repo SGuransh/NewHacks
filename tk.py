@@ -1,22 +1,22 @@
 import tkinter
-import customtkinter as tk
+import customtkinter as ctk
 import tkintermapview
 import analyzeroute
 import GMapsAPI
 
 
-class StartEndBoxes(tk.CTkFrame):
+class StartEndBoxes(ctk.CTkFrame):
     map_widget = None
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
-        self.start_label = tk.CTkLabel(self, text="Start:", font=("Arial", 14))
-        self.start_entry = tk.CTkEntry(self, width=200)
+        self.start_label = ctk.CTkLabel(self, text="Start:", font=("Arial", 14))
+        self.start_entry = ctk.CTkEntry(self, width=200)
 
-        self.end_label = tk.CTkLabel(self, text="End:", font=("Arial", 14))
-        self.end_entry = tk.CTkEntry(self, width=200)
+        self.end_label = ctk.CTkLabel(self, text="End:", font=("Arial", 14))
+        self.end_entry = ctk.CTkEntry(self, width=200)
 
-        self.find_button = tk.CTkButton(self, text="Find the Safest Route",
+        self.find_button = ctk.CTkButton(self, text="Find the Safest Route",
                                         command=self.find_safest_route)
 
         self.start_label.grid(row=0, column=0, padx=10, pady=5, sticky="e")
@@ -76,7 +76,7 @@ def main():
     map_widget = tkintermapview.TkinterMapView(root, width=1400, height=900,
                                                corner_radius=5)
     start_end_boxes.map_widget = map_widget
-    map_widget.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+    map_widget.place(relx=0.5, rely=0.5, anchor=ctk.CENTER)
     map_widget.set_address("Toronto")
 
     map_widget.lower(start_end_boxes)
