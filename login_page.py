@@ -3,13 +3,13 @@ from PIL import Image, ImageTk
 import csv
 
 
-def check_user(username, password) -> str:
+def check_user(username, password) -> tuple:
     with open("Users/users.csv", 'r') as file:
         reader = csv.reader(file)
         for i in reader:
             if len(i) > 1 and i[0] == username and i[1] == password:
-                return "Login Successful"
-        return "User Error"
+                return i[2], "Login Successful"
+        return "", "User Error"
 
 
 root = ctk.CTk()
@@ -54,17 +54,14 @@ def login():
     username = entry1.get()
     password = entry2.get()  # Get the entered password
     print("Login button clicked")
-    result = check_user(username, password)
+    filename, result = check_user(username, password)
     if result == "Login Successful":
         print("Login Successful")
         sign_up()
-        open_application(result)  # Call the main application
+        if filename:
+            print("Filepath:", filename)
     elif result == "User Error":
         print("User Error")
-
-
-def open_application(path):
-    filename = (f"Opening the application at path: {path}")
 
 
 root.mainloop()
