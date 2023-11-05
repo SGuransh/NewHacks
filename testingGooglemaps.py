@@ -36,7 +36,7 @@ index = 1
 for i in var:
     coordinates_for_this_route = []
     html_steps = []
-    print(i["legs"][0]["duration"])
+    # print(i["legs"][0]["duration"])
     for j in i["legs"][0]["steps"]:
         coordinates_for_this_route.append((j["end_location"]["lat"], j["end_location"]["lng"]))
         html_steps.append(j["html_instructions"])
@@ -45,12 +45,12 @@ for i in var:
     index += 1
 
 
-for i in route_info:
-    print(i)
-    for j in route_info[i]["coordinates"]:
-        print(j)
-    for j in route_info[i]["steps"]:
-        print(j)
+# for i in route_info:
+#     print(i)
+#     for j in route_info[i]["coordinates"]:
+#         print(j)
+#     for j in route_info[i]["steps"]:
+#         print(j)
 
 
 origin = "43.662891, -79.393337"
@@ -68,5 +68,7 @@ encoded_locations = [urllib.parse.quote(location.encode('utf-8')) for location i
 url = base_url + "/".join(encoded_locations)
 
 # Print the generated Google Maps URL
-print("Google Maps URL for the route:")
-print(url)
+# print("Google Maps URL for the route:")
+# print(url)
+
+print(route_info)
