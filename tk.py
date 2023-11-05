@@ -36,6 +36,9 @@ class StartEndBoxes(tk.CTkFrame):
         self.fakeLabel = tk.CTkLabel(self, text='TODAY IS '+ self.day.upper()).grid(row=6, columnspan=2)
         self.days_dropdown.grid(row=7, columnspan=2)
 
+        self.go_to_class_button = tk.CTkButton(self, text="Safest Route To Class",
+                                        command=self.find_safest_route_to_class)
+
     def setupDropDown(self):
         self.week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Friday', 'Friday']
         self.day = self.week[datetime.datetime.now().weekday()]
@@ -46,9 +49,12 @@ class StartEndBoxes(tk.CTkFrame):
         for lecture in parser.days_dict[self.day]:
             courses_of_today.append(lecture + ' - ' + parser.days_dict[self.day][lecture])
 
-        self.days_dropdown = tk.CTkComboBox(self, values=courses_of_today)
+        self.days_dropdown = tk.CTkComboBox(self, values=courses_of_today, command = self.combobox_callback)
         self.fakeLabel = tk.CTkLabel(self, text='').grid(row=4)
         self.fakeLabel = tk.CTkLabel(self, text='').grid(row=5)
+
+    def combobox_callback(self, choice):
+        print("clicked "+ choice)
 
 
     def find_safest_route(self):
@@ -87,6 +93,10 @@ class StartEndBoxes(tk.CTkFrame):
 
     def getPdfFilePath(self) -> str:
         return 'timetable.pdf'
+
+    def find_safest_route_to_class(self):
+        return
+
 def main():
     root = tkinter.Tk()
     root.geometry(f"{1200}x{1000}")
