@@ -4,17 +4,28 @@ import tkintermapview
 import analyzeroute
 import GMapsAPI
 
+EXAMPLE_PATH_LIST = [(43.6608842, -79.3918635),
+                     (43.6599047, -79.3908048),
+                     (43.6607327, -79.38568560000002),
+                     (43.660575, -79.3856169),
+                     (43.660244, -79.38408679999999),
+                     (43.6599447, -79.3839571),
+                     (43.6597387, -79.3833956),
+                     (43.6599137, -79.38262739999999),
+                     (43.657374, -79.38144040000002)]
+
 
 class StartEndBoxes(tk.CTkFrame):
+
     map_widget = None
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
-        self.start_label = tk.CTkLabel(self, text="Start:", font=("Arial", 14))
-        self.start_entry = tk.CTkEntry(self, width=200)
+        self.start_label = tk.CTkLabel(self, text="Start:")
+        self.start_entry = tk.CTkEntry(self)
 
-        self.end_label = tk.CTkLabel(self, text="End:", font=("Arial", 14))
-        self.end_entry = tk.CTkEntry(self, width=200)
+        self.end_label = tk.CTkLabel(self, text="End:")
+        self.end_entry = tk.CTkEntry(self)
 
         self.find_button = tk.CTkButton(self, text="Find the Safest Route",
                                         command=self.find_safest_route)
@@ -22,10 +33,12 @@ class StartEndBoxes(tk.CTkFrame):
         self.start_label.grid(row=0, column=0, padx=10, pady=5, sticky="e")
         self.start_entry.grid(row=0, column=1, padx=10, pady=5)
 
-        self.end_label.grid(row=2, column=0, padx=10, pady=5, sticky="e")
-        self.end_entry.grid(row=2, column=1, padx=10, pady=5)
+        self.end_label.grid(row=1, column=0, padx=10, pady=5, sticky="e")
+        self.end_entry.grid(row=1, column=1, padx=10, pady=5)
 
-        self.find_button.grid(row=3, columnspan=2, padx=10, pady=10)
+        self.find_button.grid(row=2, columnspan=2, padx=10, pady=10)
+
+
 
     def find_safest_route(self):
         start_location = self.start_entry.get()
@@ -47,7 +60,7 @@ class StartEndBoxes(tk.CTkFrame):
         self.drawPath(best_route)
         self.plotCrimePoints(route_analyzer)
 
-    def drawPath(self, path_list: list[tuple]):
+    def drawPath(self,  path_list: list[tuple]):
         # this code places the path and makes it zoom in and center around the path
         self.map_widget.set_position(path_list[0][0], path_list[0][1])
         self.map_widget.set_zoom(15)
@@ -62,24 +75,22 @@ class StartEndBoxes(tk.CTkFrame):
             self.map_widget.set_marker(float(point[1]), float(point[0]))
 
 
+
 def main():
     root = tkinter.Tk()
-    root.geometry(f"{1200}x{1000}")
+    root.geometry(f"{1000}x{800}")
     root.title("Navigation System")
 
     start_end_boxes = StartEndBoxes(root)
-    # start_end_boxes.grid(row=0, column=0, padx=20, pady=400, sticky="n")
-    start_end_boxes.pack(padx=100, pady=200, side=tkinter.LEFT)
+    start_end_boxes.pack(padx=100, pady=100, side=tkinter.LEFT)
 
-    start_end_boxes.place(relheight=1.0, relwidth=0.25, relx=0, rely=0)
 
-    map_widget = tkintermapview.TkinterMapView(root, width=1400, height=900,
-                                               corner_radius=5)
+    map_widget = tkintermapview.TkinterMapView(root, width=500, height=800,
+                                                    corner_radius=5)
     start_end_boxes.map_widget = map_widget
-    map_widget.place(relx=0.5, rely=0.5, anchor=tk.CENTER)
+    map_widget.place(relx=0.5, rely=0.5, anchor=tk.W)
     map_widget.set_address("Toronto")
 
-    map_widget.lower(start_end_boxes)
 
     root.mainloop()
 
