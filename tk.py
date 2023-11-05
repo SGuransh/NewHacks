@@ -62,10 +62,12 @@ class StartEndBoxes(tk.CTkFrame):
         for lecture in parser.days_dict[self.day]:
             courses_of_today.append(lecture + ' - ' + parser.days_dict[self.day][lecture])
 
-        self.days_dropdown = tk.CTkComboBox(self, values=courses_of_today)
+        self.days_dropdown = tk.CTkComboBox(self, values=courses_of_today, command=self.combobox_callback)
         self.fakeLabel = tk.CTkLabel(self, text='').grid(row=4)
         self.fakeLabel = tk.CTkLabel(self, text='').grid(row=5)
 
+    def combobox_callback(self, choice):
+        print("combobox dropdown clicked:", choice)
 
     def find_safest_route(self):
         start_location = self.start_entry.get()
