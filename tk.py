@@ -11,6 +11,7 @@ import timetable_parser
 
 class StartEndBoxes(tk.CTkFrame):
     map_widget = None
+
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
@@ -31,25 +32,27 @@ class StartEndBoxes(tk.CTkFrame):
 
         self.find_button.grid(row=3, columnspan=2, padx=10, pady=10)
 
-
         self.setupDropDown()
-        self.fakeLabel = tk.CTkLabel(self, text='TODAY IS '+ self.day.upper()).grid(row=6, columnspan=2)
+        self.fakeLabel = tk.CTkLabel(self,
+                                     text='TODAY IS ' + self.day.upper()).grid(
+            row=6, columnspan=2)
         self.days_dropdown.grid(row=7, columnspan=2)
 
     def setupDropDown(self):
-        self.week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Friday', 'Friday']
+        self.week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday',
+                     'Friday', 'Friday']
         self.day = self.week[datetime.datetime.now().weekday()]
         parser = timetable_parser.Parser(self.getPdfFilePath())
 
         courses_of_today = []
 
         for lecture in parser.days_dict[self.day]:
-            courses_of_today.append(lecture + ' - ' + parser.days_dict[self.day][lecture])
+            courses_of_today.append(
+                lecture + ' - ' + parser.days_dict[self.day][lecture])
 
         self.days_dropdown = tk.CTkComboBox(self, values=courses_of_today)
         self.fakeLabel = tk.CTkLabel(self, text='').grid(row=4)
         self.fakeLabel = tk.CTkLabel(self, text='').grid(row=5)
-
 
     def find_safest_route(self):
         start_location = self.start_entry.get()
@@ -64,7 +67,8 @@ class StartEndBoxes(tk.CTkFrame):
 
         # Comment out when testing based on based routes
         routes_formatted = gm.SAMPLE_CRIME_HEAVY
-        route_analyzer = analyzeroute.RouteAnalyzer(routes_formatted, 'major_crimes_smaller.csv')
+        route_analyzer = analyzeroute.RouteAnalyzer(routes_formatted,
+                                                    'major_crimes_smaller.csv')
 
         best_route = route_analyzer.getBestRoute()
         print(route_analyzer.relevant_crime_points)
@@ -87,6 +91,8 @@ class StartEndBoxes(tk.CTkFrame):
 
     def getPdfFilePath(self) -> str:
         return 'timetable.pdf'
+
+
 def main():
     root = tkinter.Tk()
     root.geometry(f"{1200}x{1000}")
