@@ -27,6 +27,7 @@ UOFT_BUILDING_CODES = {"EM": "75 Queen's Park Cres E, Toronto, ON M5S 1K7",
 class StartEndBoxes(tk.CTkFrame):
     map_widget = None
     syllabus_pdf = None
+    user_choice = None
     def __init__(self, parent, *args, **kwargs):
         super().__init__(parent, *args, **kwargs)
 
@@ -51,6 +52,10 @@ class StartEndBoxes(tk.CTkFrame):
         self.setupDropDown()
         self.fakeLabel = tk.CTkLabel(self, text='TODAY IS '+ self.day.upper()).grid(row=6, columnspan=2)
         self.days_dropdown.grid(row=7, columnspan=2)
+        self.fakeLabel = tk.CTkLabel(self, text='').grid(row=8,
+                                                                                     columnspan=2)
+        self.find_button = tk.CTkButton(self, text="Go To Class",
+                                        command=self.findSafestRouteToClass).grid(row=9, columnspan=2)
 
     def setupDropDown(self):
         self.week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Friday', 'Friday']
@@ -62,10 +67,36 @@ class StartEndBoxes(tk.CTkFrame):
         for lecture in parser.days_dict[self.day]:
             courses_of_today.append(lecture + ' - ' + parser.days_dict[self.day][lecture])
 
-        self.days_dropdown = tk.CTkComboBox(self, values=courses_of_today)
+        self.days_dropdown = tk.CTkComboBox(self, values=courses_of_today, command=self.combobox_callback)
         self.fakeLabel = tk.CTkLabel(self, text='').grid(row=4)
         self.fakeLabel = tk.CTkLabel(self, text='').grid(row=5)
 
+    def findSafestRouteToClass(self):
+        start_location = self.start_entry.get()
+        gm = GMapsAPI.GMapsAPI()
+
+        # Comment out for testing based on actual api
+        routes = gm.getRoutes(start_location, UOFT_BUILDING_CODES[self.user_choice], "walking")
+        start_location = routes[0]["legs"][0]["start_location"]
+        routes_formatted = gm.formatRoutes(routes)
+
+        # routes = gm.SAMPLE_SPADINA_STGEORGE
+        # start_location = routes[0]["legs"][0]["start_location"]
+        # routes_formatted = gm.formatRoutes(routes)
+
+        # Comment out when testing based on based routes
+        # routes_formatted = gm.SAMPLE_CRIME_HEAVY
+        route_analyzer = analyzeroute.RouteAnalyzer(routes_formatted, 'major_crimes_smaller.csv')
+
+        best_route = route_analyzer.getBestRoute()
+        self.drawPath(start_location, best_route)
+        self.plotCrimePoints(route_analyzer)
+
+
+    def combobox_callback(self, choice:str):
+        user_choice = choice.split(' ')[-2]
+        print(user_choice)
+        self.user_choice = user_choice
 
     def find_safest_route(self):
         start_location = self.start_entry.get()
@@ -112,7 +143,7 @@ class StartEndBoxes(tk.CTkFrame):
     def getPdfFilePath(self) -> str:
         return 'timetable.pdf'
 
-def main():
+def open_tk():
     root = tkinter.Tk()
     root.geometry(f"{1200}x{1000}")
     root.title("Navigation System")
@@ -133,5 +164,4 @@ def main():
     root.mainloop()
 
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
