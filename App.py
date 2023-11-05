@@ -5,6 +5,8 @@ import GMapsAPI
 import customtkinter as ctk
 from PIL import Image, ImageTk
 from tkinter import filedialog
+import csv
+from CTkMessagebox import CTkMessagebox
 
 import tkinter as tk
 
@@ -29,26 +31,6 @@ class LoginWindow(tk.Toplevel):
         self.destroy()
         signup_window = SignupWindow()
 
-class SignupWindow(tk.Toplevel):
-    def __init__(self, master=None):
-        super().__init__(master)
-        self.title("Signup")
-        label = tk.Label(self, text="Signup Page")
-        label.pack()
-
-        back_button = tk.Button(self, text="Back to Login", command=self.open_login)
-        signup_button = tk.Button(self, text="Signup", command=self.open_main)
-
-        back_button.pack()
-        signup_button.pack()
-
-    def open_login(self):
-        self.destroy()
-        login_window = LoginWindow()
-
-    def open_main(self):
-        self.destroy()
-        main_window = MainWindow()
 
 class MainWindow(tk.Toplevel):
     def __init__(self, master=None):
@@ -58,7 +40,7 @@ class MainWindow(tk.Toplevel):
         label.pack()
 
 def main():
-    root = tk.Tk()
+    root = ctk.CTk()
     root.title("App Start")
     login_window = LoginWindow()
     root.withdraw()  # Hide the main application window
