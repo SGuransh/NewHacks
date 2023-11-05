@@ -3,6 +3,7 @@ import customtkinter as tk
 import tkintermapview
 import analyzeroute
 import GMapsAPI
+import timetable_parser
 
 
 class StartEndBoxes(tk.CTkFrame):
@@ -61,7 +62,8 @@ class StartEndBoxes(tk.CTkFrame):
             print(float(point[1]))
             self.map_widget.set_marker(float(point[1]), float(point[0]))
 
-
+    def getPdfFilePath(self) -> str:
+        return 'timetable.pdf'
 def main():
     root = tkinter.Tk()
     root.geometry(f"{1200}x{1000}")
