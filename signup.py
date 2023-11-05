@@ -73,16 +73,24 @@ def check_username(username):
     with open("Users/users.csv", "r") as file:
         reader = csv.reader(file)
         for i in reader:
-            if i[0] == username:
+            if len(i) > 1 and i[0] == username:
                 CTkMessagebox(title="Error", message="Username Not Available!!!", icon="cancel")
                 entry1.delete(0, "end")
 
 
 def save_user(username, password):
-    with open("Users/users.csv", "w") as file:
+    with open("Users/users.csv", "a") as file:
         writer = csv.writer(file)
-        line = [username, password, filename]
+        try:
+            line = [username, password, filename]
+        except NameError:
+            line = [username, password, ""]
         writer.writerow(line)
+        CTkMessagebox(message=f"{username} has been created!!!",
+                      icon="check", option_1="Thanks")
+        entry3.delete(0, "end")
+        entry1.delete(0, "end")
+        entry2.delete(0, "end")
         # Open the login page
 
 
