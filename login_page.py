@@ -3,11 +3,11 @@ from PIL import Image, ImageTk
 import csv
 
 
-def check_user(username, password):
-    with open('users.csv', 'r') as csvfile:
-        reader = csv.DictReader(csvfile)
-        for row in reader:
-            if len(row) >= 2 and row[0] == username and row[1] == password:
+def check_user(username, password) -> str:
+    with open("Users/users.csv", 'r') as file:
+        reader = csv.reader(file)
+        for i in reader:
+            if len(i) > 1 and i[0] == username and i[1] == password:
                 return "Login Successful"
         return "User Error"
 
@@ -64,7 +64,7 @@ def login():
 
 
 def open_application(path):
-    print(f"Opening the application at path: {path}")
+    filename = (f"Opening the application at path: {path}")
 
 
 root.mainloop()

@@ -1,4 +1,7 @@
+import datetime
 import tkinter
+
+import customtkinter
 import customtkinter as tk
 import tkintermapview
 import analyzeroute
@@ -29,6 +32,26 @@ class StartEndBoxes(tk.CTkFrame):
         self.end_entry.grid(row=2, column=1, padx=10, pady=5)
 
         self.find_button.grid(row=3, columnspan=2, padx=10, pady=10)
+
+
+        self.setupDropDown()
+        self.fakeLabel = tk.CTkLabel(self, text='TODAY IS '+ self.day.upper()).grid(row=6, columnspan=2)
+        self.days_dropdown.grid(row=7, columnspan=2)
+
+    def setupDropDown(self):
+        self.week = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Friday', 'Friday']
+        self.day = self.week[datetime.datetime.now().weekday()]
+        parser = timetable_parser.Parser(self.getPdfFilePath())
+
+        courses_of_today = []
+
+        for lecture in parser.days_dict[self.day]:
+            courses_of_today.append(lecture + ' - ' + parser.days_dict[self.day][lecture])
+
+        self.days_dropdown = tk.CTkComboBox(self, values=courses_of_today)
+        self.fakeLabel = tk.CTkLabel(self, text='').grid(row=4)
+        self.fakeLabel = tk.CTkLabel(self, text='').grid(row=5)
+
 
     def find_safest_route(self):
         start_location = self.start_entry.get()
@@ -79,7 +102,6 @@ def main():
     root = tkinter.Tk()
     root.geometry(f"{1200}x{1000}")
     root.title("Navigation System")
-
     start_end_boxes = StartEndBoxes(root)
     # start_end_boxes.grid(row=0, column=0, padx=20, pady=400, sticky="n")
     start_end_boxes.pack(padx=100, pady=200, side=tkinter.LEFT)
@@ -93,7 +115,7 @@ def main():
     map_widget.set_address("Toronto")
 
     map_widget.lower(start_end_boxes)
-
+    # start_end_boxes.days_dropdown.pack()
     root.mainloop()
 
 
