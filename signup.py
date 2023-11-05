@@ -5,7 +5,6 @@ from CTkMessagebox import CTkMessagebox
 import csv
 
 
-
 def on_entry_click1(event):
     if first1:
         entry1.delete(0, "end")
@@ -33,8 +32,10 @@ bg_photo = ImageTk.PhotoImage(bg_image)
 
 bg_label = ctk.CTkLabel(root, image=bg_photo, text="")
 bg_label.place(x=0, y=0, relwidth=1, relheight=1)
-ctk.CTkLabel(root, text="URBAN", font=("Helvetica", 79, "bold"), text_color="#F08080", bg_color="#1c1a1d").pack()
-label = ctk.CTkLabel(root, text="GUARDIAN", font=("Helvetica", 52), text_color="white", bg_color="#1c1a1d")
+ctk.CTkLabel(root, text="URBAN", font=("Helvetica", 79, "bold"),
+             text_color="#F08080", bg_color="#1c1a1d").pack()
+label = ctk.CTkLabel(root, text="GUARDIAN", font=("Helvetica", 52),
+                     text_color="white", bg_color="#1c1a1d")
 label.pack()
 
 entry1 = ctk.CTkEntry(root, width=180)
@@ -55,16 +56,19 @@ entry2.bind("<FocusIn>", on_entry_click2)
 entry3.pack(pady=10)
 entry3.bind("<FocusIn>", on_entry_click3)
 
-pdf_upload = ctk.CTkButton(root, text="Upload schedule", command=lambda: open_file_dialog())
+pdf_upload = ctk.CTkButton(root, text="Upload schedule",
+                           command=lambda: open_file_dialog())
 pdf_upload.pack(pady=10)
 
-proceed_button = ctk.CTkButton(root, text="Signup", command=lambda: sign_up_activate())
+proceed_button = ctk.CTkButton(root, text="Signup",
+                               command=lambda: sign_up_activate())
 proceed_button.pack(pady=10)
 
 
 def check_password(pass1, pass2):
     if pass1 != pass2:
-        CTkMessagebox(title="Error", message="Passwords Don't Match!!!", icon="cancel")
+        CTkMessagebox(title="Error", message="Passwords Don't Match!!!",
+                      icon="cancel")
         entry2.delete(0, "end")
         entry3.delete(0, "end")
 
@@ -74,7 +78,9 @@ def check_username(username):
         reader = csv.reader(file)
         for i in reader:
             if len(i) > 1 and i[0] == username:
-                CTkMessagebox(title="Error", message="Username Not Available!!!", icon="cancel")
+                CTkMessagebox(title="Error",
+                              message="Username Not Available!!!",
+                              icon="cancel")
                 entry1.delete(0, "end")
 
 
@@ -106,7 +112,10 @@ def sign_up_activate():
 def open_file_dialog():
     global filename
     data_lost = entry3.get()
-    filename = filedialog.askopenfilename(initialdir="/gui/images", title="Choose the timetable", filetypes=(("pdf files", "*.pdf"), ("all files", "*.pdf")))
+    filename = filedialog.askopenfilename(initialdir="/gui/images",
+                                          title="Choose the timetable",
+                                          filetypes=(("pdf files", "*.pdf"),
+                                                     ("all files", "*.pdf")))
     if filename:
         # Do something with the selected file path (e.g., open and read the file)
         print(f"Selected file: {filename}")
