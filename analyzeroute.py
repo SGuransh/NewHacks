@@ -9,6 +9,7 @@ class RouteAnalyzer:
     TIME_WEIGHT = 5
     DISTANCE_WEIGHT = 0.7
     curr_time = datetime.datetime.now()
+    relevant_crime_points = set()
 
     def __init__(self, routes: dict, crime_points_file: str):
         self.routes = routes # routes are a list of routes
@@ -47,11 +48,11 @@ class RouteAnalyzer:
         Credits: formula from Kurt Peek
         """
         R = 6373.0
-
+        print((point1[1]), point1[0], point2[0], point2[1])
         lat1 = radians(float(point1[1]))
         lon1 = radians(float(point1[0]))
-        lat2 = radians(float(point2[1]))
-        lon2 = radians(float(point2[0]))
+        lat2 = radians(float(point2[0]))
+        lon2 = radians(float(point2[1]))
 
         dlon = lon2 - lon1
         dlat = lat2 - lat1
@@ -72,18 +73,20 @@ class RouteAnalyzer:
             point_score = 0
             for crime_point in self.crime_points:
                 if self.calcDistanceTwoPoints(crime_point, route_point) <= 0.5:
-                    time_score = -1/12 * abs(self.curr_time.hour - self.crime_points[crime_point]["OCC_HOUR"] ) + self.TIME_WEIGHT
+                    self.relevant_crime_points.add(crime_point)
+                    time_score = -1/12 * abs(self.curr_time.hour - int(self.crime_points[crime_point]["OCC_HOUR"])) + self.TIME_WEIGHT
                     distance_score = (-1/500 * self.calcDistanceTwoPoints(crime_point, route_point) + 1) * 20
                     point_score += time_score + distance_score + \
                                    self.adjustPremiseType(self.crime_points[crime_point]["PREMISES_TYPE"]) + \
                                    self.adjustMCIType(self.crime_points[crime_point]["MCI_CATEGORY"])
 
             total_route_score += point_score
+
         return total_route_score
 
-    def getBestRoute(self) -> dict:
+    def getBestRoute(self) -> list:
         dic = {}
-        best_route = 0
+        best_route = 1
         best_score = 0
         for route in self.routes:
             score = self.calculateRouteScore(self.routes[route]['coordinates'])
@@ -92,7 +95,7 @@ class RouteAnalyzer:
                 best_route = route
 
         dic[best_route] = self.routes[best_route]['coordinates']
-        return dic
+        return dic[best_route]
 
 
     def adjustPremiseType(self, premise_type: str) -> float:
