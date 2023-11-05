@@ -58,8 +58,6 @@ def login():
     if result == "Login Successful":
         print("Login Successful")
         sign_up()  # Call the main application
-    elif result == "Password Error":
-        print("Password Error")
     elif result == "User Error":
         print("User Error")
 
