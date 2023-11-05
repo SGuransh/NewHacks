@@ -4,12 +4,14 @@ import csv
 
 
 def check_user(username, password):
-    with open('users.csv', 'r') as csvfile:
+    with open("Users/users.csv", 'r') as csvfile:
         reader = csv.DictReader(csvfile)
+
         for row in reader:
-            if len(row) >= 2 and row[0] == username and row[1] == password:
+            if row['guransh'] == username and row['pass'] \
+                    == password:
                 return "Login Successful"
-        return "User Error"
+            return "User Error"
 
 
 root = ctk.CTk()
@@ -64,7 +66,7 @@ def login():
 
 
 def open_application(path):
-    print(f"Opening the application at path: {path}")
+    filename = (f"Opening the application at path: {path}")
 
 
 root.mainloop()
