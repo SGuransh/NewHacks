@@ -3,15 +3,13 @@ from PIL import Image, ImageTk
 import csv
 
 
-def check_user(username, password):
-    with open("Users/users.csv", 'r') as csvfile:
-        reader = csv.DictReader(csvfile)
-
-        for row in reader:
-            if row['guransh'] == username and row['pass'] \
-                    == password:
+def check_user(username, password) -> str:
+    with open("Users/users.csv", 'r') as file:
+        reader = csv.reader(file)
+        for i in reader:
+            if len(i) > 1 and i[0] == username and i[1] == password:
                 return "Login Successful"
-            return "User Error"
+        return "User Error"
 
 
 root = ctk.CTk()
