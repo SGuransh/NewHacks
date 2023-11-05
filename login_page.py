@@ -7,11 +7,8 @@ def check_user(username, password):
     with open('users.csv', 'r') as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            if row['username'] == username:
-                if row['password'] == password:
-                    return "Login Successful"
-                else:
-                    return "Password Error"
+            if len(row) >= 2 and row[0] == username and row[1] == password:
+                return "Login Successful"
         return "User Error"
 
 
