@@ -122,7 +122,8 @@ def open_file_dialog():
                                           filetypes=(("pdf files", "*.pdf"),
                                                      ("all files", "*.pdf")))
     if filename:
-        # Do something with the selected file path (e.g., open and read the file)
+        # Do something with the selected file path (e.g., open and read the
+        # file)
         print(f"Selected file: {filename}")
     entry3.insert(0, data_lost)
 
