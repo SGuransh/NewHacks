@@ -14,10 +14,25 @@ ctk.CTkLabel(root, text="URBAN", font=("Helvetica", 79, "bold"), text_color="#F0
 label = ctk.CTkLabel(root, text="GUARDIAN", font=("Helvetica", 52), text_color="white", bg_color="#1c1a1d")
 label.pack()
 
-proceed_button = ctk.CTkButton(root, text="Login", command=lambda: open_main_app())
-proceed_button.pack(pady=100)
+# Create Entry widgets (text boxes)
+entry1 = ctk.CTkEntry(root, width=180)
+entry2 = ctk.CTkEntry(root, width=180)
 
-def open_main_app():
+# Place Entry widgets on the GUI using the pack geometry manager
+entry1.pack(pady=10)
+entry2.pack()
+
+proceed_button = ctk.CTkButton(root, text="Login", command=lambda: login(), width=100)
+proceed_button.pack(pady=10)
+
+# Create a button to submit the entered text
+submit_button = ctk.CTkButton(root, text="Submit", command=lambda: sign_up(), width=100)
+submit_button.pack()
+
+def sign_up():
     print("Opening the main application.")
+
+def login():
+    print("Login button clicked")
 
 root.mainloop()
