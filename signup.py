@@ -65,15 +65,16 @@ proceed_button = ctk.CTkButton(root, text="Signup",
 proceed_button.pack(pady=10)
 
 
-def check_password(pass1, pass2):
+def check_password(pass1, pass2) -> bool:
     if pass1 != pass2:
         CTkMessagebox(title="Error", message="Passwords Don't Match!!!",
                       icon="cancel")
         entry2.delete(0, "end")
         entry3.delete(0, "end")
+        return False
 
 
-def check_username(username):
+def check_username(username) -> bool:
     with open("Users/users.csv", "r") as file:
         reader = csv.reader(file)
         for i in reader:
@@ -82,7 +83,7 @@ def check_username(username):
                               message="Username Not Available!!!",
                               icon="cancel")
                 entry1.delete(0, "end")
-        good_to_go = False
+        return False
 
 
 def save_user(username, password):
@@ -95,7 +96,6 @@ def save_user(username, password):
         writer.writerow(line)
         CTkMessagebox(message=f"{username} has been created!!!",
                       icon="check", option_1="Thanks")
-        good_to_go = False
         entry3.delete(0, "end")
         entry1.delete(0, "end")
         entry2.delete(0, "end")
@@ -103,15 +103,15 @@ def save_user(username, password):
 
 
 def sign_up_activate():
-    global good_to_go
     good_to_go = True
     username = entry1.get()
     password = entry2.get()
     repeat = entry3.get()
-    check_password(password, repeat)
-    check_username(username)
+    good_to_go = check_password(password, repeat)
     if good_to_go:
-        save_user(username, password)
+        good_to_go = check_username(username)
+        if good_to_go:
+            save_user(username, password)
 
 
 def open_file_dialog():
