@@ -95,14 +95,6 @@ class RouteAnalyzer:
         return dic
 
 
-
-
-
-
-
-
-
-
     def adjustPremiseType(self, premise_type: str) -> float:
         if premise_type == 'Apartment':
             return 10
