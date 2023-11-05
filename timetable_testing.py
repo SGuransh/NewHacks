@@ -30,23 +30,61 @@ for item in result:
         result[i] = item.removeprefix('\x0c')
     i += 1
 
+x = 0
+# for item in result:
+#     if item =='TUT 0103':
+#         print('INDEX IS' + str(x))
+#     x+=1
+# print(result[104])
+
 # print(result)
 
 def getTimeTable(timetable_list:list) -> dict:
-    lecture_name = ''
-    dic = {}
+    courses = {}
     index = 0
-    while index < len(timetable_list):
-        while 'LEC' not in timetable_list[index]:
-            if 'TUT' in timetable_list[index]:
-                break
-            lecture_name += timetable_list[index]
-            index += 1
-        lectures, index = getNextLectureAndTimes(result, index)
-        index+=1
-        dic[lecture_name] = lectures
-        lecture_name = ''
-    return dic
+    first = True
+    course = {}
+    prev_course = "prev"
+    for item in timetable_list:
+        if re.search("\(Fall\)|\(Winter\)|\(Full Session\)", item):
+            print(item)
+            if not first:
+                courses[prev_course] = course
+            first = False
+            prev_course = item
+            course = {}
+        if re.search("LEC", item):
+            t = getNextLectureAndTimes(timetable_list, index)
+            course["LEC"] = t[0]
+            print(t[0])
+        if re.search("TUT", item):
+            t = getNextLectureAndTimes(timetable_list, index)
+            course["TUT"] = t[0]
+            print(t[0])
+        index += 1
+    return courses
+
+courses={'CSC207H1 F (Fall) Software Design': {'LEC': {'LEC 0201': {'Tuesday 1:00PM -2:00PM': 'EM 001', 'Thursday 1:00PM -2:00PM': 'EM 001'}}, 'TUT': {'TUT 5101': {}}}, 'CSC236H1 F (Fall) Introduction to the': {'LEC': {'LEC 0201': {'Monday 12:00PM -1:00PM': 'MP 202', 'Friday 12:00PM -1:00PM': 'MP 202'}}, 'TUT': {'TUT 0204': {'Wednesday 12:00PM -1:00PM': 'BF 215'}}}, 'MST233H1 F (Fall) Viking Cultures': {'LEC': {'LEC 0101': {}}}, 'NMC253H1 F (Fall) Egyptian Myths': {'LEC': {'LEC 0101': {}}}, 'STA237H1 F (Fall) Probability, Statistics': {'LEC': {'LEC 0101': {'Monday 1:00PM -3:00PM': 'MS 2158', 'Wednesday 2:00PM -3:00PM': 'AH 100'}}, 'TUT': {'TUT 0104': {'Wednesday 1:00PM -2:00PM': 'NF 119'}}}, 'MAT235Y1 Y (Full Session) Multivariable': {'LEC': {'LEC 0201': {'Monday 10:00AM -11:00AM': 'RW 110', 'Wednesday 10:00AM -11:00AM': 'RW 110', 'Friday 10:00AM -11:00AM': 'RW 110'}}, 'TUT': {'TUT 0303': {'Tuesday 12:00PM -1:00PM': 'OI 5230'}}}, 'CSC209H1 S (Winter) Software Tools and': {'LEC': {'LEC 0201': {'Tuesday 3:00PM -4:00PM': 'MY 150', 'Thursday 3:00PM -4:00PM': 'MY 150'}}, 'TUT': {'TUT 0301': {}}}, 'CSC258H1 S (Winter) Computer': {'LEC': {'LEC 5101': {}}, 'TUT': {'TUT 5301': {}}}, 'CSC263H1 S (Winter) Data Structures and': {'LEC': {'LEC 0301': {'Tuesday 1:00PM -2:00PM': 'NL 6', 'Thursday 1:00PM -2:00PM': 'BA 1130'}}, 'TUT': {'TUT 0103': {'Friday 12:00PM -1:00PM': 'ES B149'}}}, 'MAT223H1 S (Winter) Linear Algebra I': {'LEC': {'LEC 0301': {}}, 'TUT': {'TUT 0401': {}}}}
+
+def getCoursesByDays(courses:dict)-> dict:
+    days_dict = {'Monday': {}, 'Tuesday': {}, 'Wednesday':{}, 'Thursday':{}, 'Friday':{}}
+    for course in courses:
+        for lecture in courses[course]['LEC']:
+            dic_of_dates = courses[course]['LEC'][lecture]
+            # print(dic_of_dates)
+            course_name = course
+            for date in dic_of_dates:
+                day = date.split(' ')[0]
+                location = dic_of_dates[date]
+                days_dict[day][course_name.split(' ')[0]] = location
+    return days_dict
+
+
+
+
+
+
+
 def getNextLectureAndTimes(timetable_list:list, start_index:int) -> (dict, int):
     # if('TUT' and 'LEC' not in timetable_list[start_index]):
     #     return(None, start_index)
@@ -75,4 +113,6 @@ def getNextLectureAndTimes(timetable_list:list, start_index:int) -> (dict, int):
         if locations:
             dic_lecture_times[lecture_times[i]] = locations[i].removesuffix(" \uf08e")
     dic[lecture] = dic_lecture_times
+    if 'TUT' in lecture:
+        end_i -= 1
     return (dic, end_i)
